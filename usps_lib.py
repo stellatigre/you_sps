@@ -6,10 +6,10 @@ import configfile as config     # in the same directory
 try: import simplejson as json
 except ImportError: import json
 
+
 # package_info must be a dict containing the specific fields we want
 def make_request_xml(base_xml_string, package_info):
     return base_xml_string.format(**package_info)
-
 
 # feed this function xml from make_request_xml
 def get_label(package_info_xml):
@@ -38,7 +38,7 @@ def save_pdf_from_base64(base64_pdf, image_filename):
 
 # just pass this a dict of the right options, see test data
 def get_shipping_rate(package_info):
-    xml_request = make_request_xml(rate_request_base, package_info)
+    xml_request = make_request_xml(xmlt.rate_xml_base, package_info)
     rate_response = req.post(config.rate_api_address, xml_request)
     response_xml = rate_response.content
     return response_xml    
@@ -52,7 +52,7 @@ def json_from_dict(input_dict, filename=None):
     
     if filename is not None:
         with open("./json/" + filename, "w") as json_file:
-            json_file.write(json.dumps(input_dict, indent=4, sort_keys=True))
+            json_file.write(json.dumps(input_dict, indent=4, sort_keys=False))
             json_file.close()   
 
     return json_data
