@@ -1,7 +1,6 @@
 import requests as req
-
-api_addr = "http://production.shippingapis.com/ShippingAPI.dll?API=RateV4"
-api_user = "183ABSTR1250"
+import configfile as config
+from usps_lib import make_request_xml
 
 testxml = '''
 http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="183ABSTR1250" >
@@ -19,14 +18,11 @@ http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request
           <Height>15</Height>
           <Girth>55</Girth>
      </Package>
-</RateV4Request>'''
-
-# package_info must contain the specific fields we want
-def make_request_xml(base_xml_string, package_info):
-    return base_xml_string.format(**package_info)
+</RateV4Request>
+'''
 
 test_opts = {
-    'api_user' : api_user,
+    'api_user' : config.api_user,
     'package_id' : '1ST',
     'service' : 'PRIORITY',
     'zip_origin' : 44280,
@@ -41,7 +37,7 @@ test_opts = {
     'girth' : 65
 }
 
-testxml3 = '''
+rate_request_base = '''
 http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="{api_user}" >
      <Revision/>
      <Package ID="{package_id}">
@@ -57,18 +53,29 @@ http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request
           <Height>{height}</Height>
           <Girth>{girth}</Girth>
      </Package>
-</RateV4Request>'''
+</RateV4Request>
+'''
+
+def get_shipping_rate(package_info):
+    xml_request = make_request_xml(rate_request_base, package_info)
+    rate_response = req.post(config.rate_api_address, xml_request)
+    response_xml = rate_response.content
+    return response_xml    
+
+print("\nXML output from get_shipping_rate")
+xml_formatted1 = get_shipping_rate(test_opts)
+print(xml_formatted1)
 
 print("\nXML output from make_request_xml:")
-xml_formatted = make_request_xml(testxml3, test_opts)
+xml_formatted = make_request_xml(rate_request_base, test_opts)
 print(xml_formatted)
 
 print("\nResponse Content from USPS with test XML string:")
-rate_response = req.post(api_addr, testxml)
+rate_response = req.post(config.rate_api_address, testxml)
 print(rate_response.content)
 
 print("\nResponse Content with formatted XML string number 2:")
-rate_response2 = req.post(api_addr, xml_formatted)
+rate_response2 = req.post(config.rate_api_address, xml_formatted)
 print(rate_response2.content)
 
 
