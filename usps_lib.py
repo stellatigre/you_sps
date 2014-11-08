@@ -19,7 +19,7 @@ def get_label(package_info_xml):
         label_image = label_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationLabel']
         return (label_image, label_dict)
     except KeyError as error:
-        print("\nfuck...\n")
+        print("\nsomething went wrong with the request...\n")
         return (None, label_dict)
         
     
@@ -41,7 +41,8 @@ def save_pdf_from_base64(base64_pdf, image_filename):
 def save_json_from_dict(input_dict, filename):
     encoder = json.JSONEncoder()
     json_data = encoder.encode(input_dict)
-    print(json.dumps(input_dict, indent=4, sort_keys=True))
+    #print(json.dumps(input_dict, indent=4, sort_keys=True))
+    
     try:
         with open("./json/" + filename, "w") as json_file:
             json_file.write(json_data)
