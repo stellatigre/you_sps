@@ -3,7 +3,8 @@ import requests as req
 api_addr = "http://production.shippingapis.com/ShippingAPI.dll?API=RateV4"
 api_user = "183ABSTR1250"
 
-testxml = '''http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="183ABSTR1250" >
+testxml = '''
+http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="183ABSTR1250" >
      <Revision/>
      <Package ID="1ST">
           <Service>PRIORITY</Service>
@@ -40,7 +41,8 @@ test_opts = {
     'girth' : 65
 }
 
-testxml3 = '''http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="{api_user}" >
+testxml3 = '''
+http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="{api_user}" >
      <Revision/>
      <Package ID="{package_id}">
           <Service>{service}</Service>
