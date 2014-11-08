@@ -8,7 +8,7 @@ import configfile as config
 app = Flask(__name__)
 
 # Define a route for the default URL, which loads the form
-@app.route('/', methods=['GET']))
+@app.route('/', methods=['GET'])
 def hey():
     return "hey qt"
 
