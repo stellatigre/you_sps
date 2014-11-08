@@ -32,7 +32,8 @@ def save_pdf_from_base64(base64_pdf, image_filename):
             pdf_image.write(base64.b64decode(base64_pdf))
             pdf_image.close()   
         return filepath
-    except:
+    except Exception as error:
+        print("\nerror saving PDF file...")
         return False
 
 
