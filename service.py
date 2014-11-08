@@ -2,6 +2,7 @@
 # and render_template, to render our templates (form and response)
 # we'll use url_for to get some URLs for the app on the templates
 from flask import Flask, render_template, request, url_for
+import configfile as config
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def rates():
 # Run the app :)
 if __name__ == '__main__':
   app.run( 
-        host="0.0.0.0",
-        port=int("9400")
+        host = "0.0.0.0",
+        port = int(config.listen_port)
   )
 

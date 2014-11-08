@@ -13,7 +13,7 @@ def make_request_xml(base_xml_string, package_info):
 
 # feed this function xml from make_request_xml
 def get_label(package_info_xml):
-    label_response = req.get(config.api_address + package_info_xml)
+    label_response = req.get(config.label_api_address + package_info_xml)
     label_dict = xml2dict.parse(label_response.content)
     try:
         label_image = label_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationLabel']
