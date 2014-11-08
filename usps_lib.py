@@ -23,7 +23,6 @@ def get_label(package_info_xml):
         return (None, label_dict)
         
     
-
 # USPS's api returns data in base64 PDF or TIF - chose PDF
 def save_pdf_from_base64(base64_pdf, image_filename):
     filepath = "./pdfs/" + image_filename
@@ -37,18 +36,23 @@ def save_pdf_from_base64(base64_pdf, image_filename):
         return False
 
 
+# just pass this a dict of the right options, see test data
+def get_shipping_rate(package_info):
+    xml_request = make_request_xml(rate_request_base, package_info)
+    rate_response = req.post(config.rate_api_address, xml_request)
+    response_xml = rate_response.content
+    return response_xml    
+
+
 # storing this in the filesystem for purposes
 # of providing demo data, could go in a DB easily
-def save_json_from_dict(input_dict, filename):
+def json_from_dict(input_dict, filename=None):
     encoder = json.JSONEncoder()
     json_data = encoder.encode(input_dict)
-    #print(json.dumps(input_dict, indent=4, sort_keys=True))
     
-    try:
+    if filename is not None:
         with open("./json/" + filename, "w") as json_file:
-            json_file.write(json_data)
+            json_file.write(json.dumps(input_dict, indent=4, sort_keys=True))
             json_file.close()   
-        return json_data
-    except:
-        return False
 
+    return json_data

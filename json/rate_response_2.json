@@ -1,0 +1,19 @@
+{
+    "RateV4Response": {
+        "Package": {
+            "@ID": "1ST",
+            "Container": "NONRECTANGULAR",
+            "Ounces": "8",
+            "Postage": {
+                "@CLASSID": "1",
+                "MailService": "Priority Mail 2-Day&lt;sup&gt;&#8482;&lt;/sup&gt;",
+                "Rate": "27.25"
+            },
+            "Pounds": "25",
+            "Size": "LARGE",
+            "ZipDestination": "20772",
+            "ZipOrigination": "44280",
+            "Zone": "3"
+        }
+    }
+}

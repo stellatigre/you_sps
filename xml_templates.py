@@ -2,6 +2,25 @@
 # for XML requests to the USPS API, for rates and lables
 import configfile as config
 
+rate_test_xml = '''
+http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request USERID="183ABSTR1250" >
+     <Revision/>
+     <Package ID="1ST">
+          <Service>PRIORITY</Service>
+          <ZipOrigination>44106</ZipOrigination>
+          <ZipDestination>20770</ZipDestination>
+          <Pounds>1</Pounds>
+          <Ounces>8</Ounces>
+          <Container>NONRECTANGULAR</Container>
+          <Size>LARGE</Size>
+          <Width>15</Width>
+          <Length>30</Length>
+          <Height>15</Height>
+          <Girth>55</Girth>
+     </Package>
+</RateV4Request>
+'''
+
 label_xml_base = '''
 <?xml version="1.0" encoding="UTF-8" ?>
 <SigConfirmCertifyV4.0Request USERID="{api_user}" PASSWORD="XXXXXX">
