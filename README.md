@@ -1,6 +1,6 @@
 # you-sps
-=========
-## a JSON wrapper around USPS' rate and label APIs, in Python 3
+a Python3 JSON wrapper for USPS' rate & label APIs
+==================================================
 
 ### Dependencies
 * Flask, 
