@@ -15,7 +15,7 @@ def label():
 
 @app.route('/rates', methods=['POST'])
 def rates():
-    json_data = json.loads(request.get_data())
+    json_data = json.loads(request.get_data().decode("UTF-8"))
     usps_rate_response = json_from_dict(get_shipping_rate(json_data))
     return usps_rate_response
 
