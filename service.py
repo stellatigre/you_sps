@@ -10,7 +10,12 @@ app = Flask(__name__)
 
 @app.route('/label', methods=['POST'])
 def label():    
-    return "label route stub"
+    json_data = json.loads(request.get_data().decode("UTF-8"))
+    usps_label, request_dict = get_label(json_data) 
+    file_number = response_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationNumber']
+    pdf_path = save_pdf_from_base64(usps_label, file_number)
+    print(pdf_path)
+    return config.host + pdf_path
 
 
 @app.route('/rates', methods=['POST'])
@@ -21,9 +26,9 @@ def rates():
 
 # Run the service
 if __name__ == '__main__':
-  app.debug = True
-  app.run( 
+    app.debug = True   
+    app.run( 
         host = "0.0.0.0",
         port = int(config.listen_port)
-  )
+    )
 

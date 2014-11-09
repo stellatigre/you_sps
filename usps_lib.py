@@ -37,10 +37,20 @@ def save_pdf_from_base64(base64_pdf, image_filename):
         print("\nerror saving PDF file...\n" + error)
         return False
 
+# girth is equal to to twice the shortest sides added together
+def girth(item):
+    dimensions = [int(n) for n in [item['width'], item['height'], item['length']]]
+    dimensions.sort()
+    return 2 * (dimensions[0] + dimensions[1])
+    
 
 # just pass this a dict of the right options, see test data
 def get_shipping_rate(package_info):
     package_info['api_user'] = config.api_user
+    package_info['girth'] = girth(package_info)
+   
+    pprint(package_info)
+ 
     xml_request = make_request_xml(xmlt.rate_xml_base, package_info)
     rate_response = req.post(config.rate_api_address, xml_request)  # actual request
     response_xml = rate_response.content

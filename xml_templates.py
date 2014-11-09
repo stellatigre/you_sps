@@ -80,16 +80,16 @@ label_xml_base = '''
 
 test_rate_opts = {
     #'api_user' : config.api_user,
-    'package_id' : '1ST',
+    'package_id' : '1',
     'service' : 'PRIORITY',
-    'zip_origin' : 44280,
+    'zip_origin' : 78702,
     'zip_dest' : 20772,
-    'pounds' : 25,
+    'pounds' : 1,
     'ounces' : 8,
     'container' : 'NONRECTANGULAR',
-    'size' : 'LARGE',
-    'width' : 25,
-    'length' : 40,
+    'size' : 'Large',
+    'width' : 15,
+    'length' : 10,
     'height' : 35,
     'girth' : 65
 }
