@@ -8,7 +8,7 @@ from pprint import pprint
 
 app = Flask(__name__)
 
-@app.route('/label', methods=['GET'])
+@app.route('/label', methods=['POST'])
 def label():    
     return "label route stub"
 
@@ -16,13 +16,10 @@ def label():
 @app.route('/rates', methods=['POST'])
 def rates():
     json_data = json.loads(request.get_data())
-    pprint(json_data)
-
     usps_rate_response = json_from_dict(get_shipping_rate(json_data))
-    print(usps_rate_response)
     return usps_rate_response
 
-# Run the application
+# Run the service
 if __name__ == '__main__':
   app.run( 
         host = "0.0.0.0",
