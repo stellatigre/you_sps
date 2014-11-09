@@ -5,7 +5,7 @@ import xml_templates as xmlt    # these are both local modules
 import configfile as config     # in the same directory
 try: import simplejson as json
 except ImportError: import json
-
+from pprint import pprint
 
 # package_info must be a dict containing the specific fields we want
 def make_request_xml(base_xml_string, package_info):
@@ -15,6 +15,7 @@ def make_request_xml(base_xml_string, package_info):
 def get_label(package_info_xml):
     label_response = req.get(config.label_api_address + package_info_xml)
     label_dict = xml2dict.parse(label_response.content)
+    pprint(label_dict)
     try:
         label_image = label_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationLabel']
         return (label_image, label_dict)
