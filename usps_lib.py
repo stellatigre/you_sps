@@ -38,21 +38,16 @@ def save_pdf_from_base64(base64_pdf, image_filename):
 
 # just pass this a dict of the right options, see test data
 def get_shipping_rate(package_info):
+    package_info['api_user'] = config.api_user
     xml_request = make_request_xml(xmlt.rate_xml_base, package_info)
     rate_response = req.post(config.rate_api_address, xml_request)
     response_xml = rate_response.content
-    return response_xml
+    pprint(response_xml)
+    response_dict = xml2dict.parse(response_xml)
+    return response_dict
 
 
-# storing this in the filesystem for purposes
-# of providing demo data, could go in a DB easily
-def json_from_dict(input_dict, filename=None):
+def json_from_dict(input_dict):
     encoder = json.JSONEncoder()
-    json_data = encoder.encode(input_dict)
- 
-    if filename is not None:
-        with open("./json/" + filename, "w") as json_file:
-            json_file.write(json.dumps(input_dict, indent=4, sort_keys=False))
-            json_file.close()
-
+    json_data = encoder.encode(input_dict) 
     return json_data

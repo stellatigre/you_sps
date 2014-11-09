@@ -37,7 +37,7 @@ http://production.shippingapis.com/ShippingAPI.dll?API=RateV4&XML=<RateV4Request
           <Girth>{girth}</Girth>
      </Package>
 </RateV4Request>
-'''
+''' 
 
 label_xml_base = '''
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -79,7 +79,7 @@ label_xml_base = '''
 '''
 
 test_rate_opts = {
-    'api_user' : config.api_user,
+    #'api_user' : config.api_user,
     'package_id' : '1ST',
     'service' : 'PRIORITY',
     'zip_origin' : 44280,
