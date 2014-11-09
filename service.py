@@ -4,6 +4,7 @@ try: import simplejson as json
 except ImportError: import json
 from flask import Flask, render_template, request, url_for
 from usps_lib import save_pdf_from_base64, json_from_dict, get_label
+from pprint import pprint
 
 app = Flask(__name__)
 
@@ -15,7 +16,7 @@ def label():
 @app.route('/rates', methods=['POST'])
 def rates():
     json_data = json.loads(request.get_data())
-    print(str(json_data))
+    pprint(str(json_data))
     
     return "swag, it works\n"
 
