@@ -16,6 +16,7 @@ def get_label(package_info):
     package_info_xml = make_request_xml(xmlt.label_xml_base, package_info)
     label_response = req.get(config.label_api_address + package_info_xml)
     label_dict = xml2dict.parse(label_response.content)
+    
     #pprint(label_dict)
     try:
         label_image = label_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationLabel']
