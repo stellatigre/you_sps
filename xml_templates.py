@@ -91,7 +91,6 @@ test_rate_opts = {
     'width' : 15,
     'length' : 10,
     'height' : 35,
-    'girth' : 65
 }
 
 test_label_opts = {
