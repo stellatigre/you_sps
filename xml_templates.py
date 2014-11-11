@@ -94,7 +94,6 @@ test_rate_opts = {
 }
 
 test_label_opts = {
-    'api_user' : config.api_user,
     'from_name' : 'Lean Doer',
     'from_firm' : 'USPS',
     'from_address1' : 'RM 2100',
@@ -121,7 +120,6 @@ test_label_opts = {
     'width' : 7,
     'length' : 15,
     'height' : 10,
-    'girth' : 40,
     'return_commitments' : 'true'
 }
 
