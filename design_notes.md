@@ -2,6 +2,7 @@ Design Notes
 ------------
 
 * USPS return label images in PDF or TIFF (googling around indicates PDF was the better choice, so i did that)
+* girth is calculated as a function of the shortest sides.
 * Database implementation is naive at the moment, and questions of session creation / scope and such should be more closely considered if this is to be used in production - for now, it immediately commits and flushes all additions to the session for immediate feedback.  Undoubtedly, there is a more efficient way.
 * On the note of the database, currently it's just setup to store responses, not requests.  In addition, DB entries for /labels are on the "to do" list
 * possible uses for database portion : keep track of customer history or to analyze trends in usage
