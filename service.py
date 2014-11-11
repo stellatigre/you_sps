@@ -4,7 +4,8 @@ try: import simplejson as json
 except ImportError: import json
 from flask import Flask, render_template, request, url_for
 from usps_lib import save_pdf_from_base64, json_from_dict, get_label, get_shipping_rate
-from pprint import pprint
+#from pprint import pprint
+import db   # local db module
 
 app = Flask(__name__)
 
@@ -15,18 +16,19 @@ def label():
     file_number = response_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationNumber']
     pdf_path = save_pdf_from_base64(usps_label, file_number)
     print(pdf_path)
-    return config.host + pdf_path
+    return config.host + '/' + pdf_path
 
 
 @app.route('/rates', methods=['POST'])
 def rates():
     json_data = json.loads(request.get_data().decode("UTF-8"))
     usps_rate_response = json_from_dict(get_shipping_rate(json_data))
+    #db.rate_entry_from_response_dict(usps_rate_response)
     return usps_rate_response
 
 # Run the service
 if __name__ == '__main__':
-    app.debug = True   
+    app.debug = conf.debug   
     app.run( 
         host = "0.0.0.0",
         port = int(config.listen_port)
