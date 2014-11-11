@@ -103,7 +103,7 @@ test_label_opts = {
     'from_state' : 'DC',
     'from_zip5' : 20260,
     'to_name' : 'Spooky Skellingtons',
-    'to_firm' : 'OMnicorp. LTD.',
+    'to_firm' : 'Omnicorp. LTD.',
     'to_address1' : 'Ste 240',
     'to_address2' : '2 Massachusetts Ave NE',
     'to_city' : 'Washington',
