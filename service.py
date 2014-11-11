@@ -3,7 +3,7 @@ import configfile as config
 try: import simplejson as json
 except ImportError: import json
 from flask import Flask, render_template, request, url_for
-from usps_lib import save_pdf_from_base64, json_from_dict, get_label, get_shipping_rate
+from usps_lib import save_pdf_from_base64, get_label, get_shipping_rate
 from pprint import pprint
 import db   # local db module
 
