@@ -13,6 +13,7 @@ def make_request_xml(base_xml_string, package_info):
 
 # feed this function xml from make_request_xml
 def get_label(package_info):
+    package_info['api_user'] = config.api_user
     package_info['girth'] = girth(package_info)
 
     package_info_xml = make_request_xml(xmlt.label_xml_base, package_info)
