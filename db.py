@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from configfile import db as conf
+from pprint import pprint
 
 conn_string = "postgresql+psycopg2://{user}:{password}@{host}/{name}".format(**conf)
 db = create_engine(conn_string)
@@ -78,6 +79,7 @@ def label_entry_from_response_dict(data):
     return mapped
 
 def rate_entry_from_response_dict(data):
+    pprint(data)
     data = data['RateV4Response']['Package']
     mapped = Rate(
         rate = data['Postage']['Rate'],
