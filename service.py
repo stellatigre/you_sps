@@ -23,12 +23,12 @@ def label():
 def rates():
     json_data = json.loads(request.get_data().decode("UTF-8"))
     usps_rate_response = json_from_dict(get_shipping_rate(json_data))
-    #db.rate_entry_from_response_dict(usps_rate_response)
+    db.rate_entry_from_response_dict(usps_rate_response)
     return usps_rate_response
 
 # Run the service
 if __name__ == '__main__':
-    app.debug = conf.debug   
+    app.debug = config.debug   
     app.run( 
         host = "0.0.0.0",
         port = int(config.listen_port)
