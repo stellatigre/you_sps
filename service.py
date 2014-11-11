@@ -15,7 +15,9 @@ def label():
     usps_label, response_dict = get_label(json_data) 
     file_number = response_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationNumber']
     pdf_path = save_pdf_from_base64(usps_label, file_number)
-    pprint(response_dict)
+    
+    #pprint(response_dict)
+    #del response_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationLabel'] # we're saving this PDF locally
     response_dict['label_url'] = config.host + '/' + pdf_path
     return json.dumps(response_dict)
     
