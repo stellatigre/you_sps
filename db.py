@@ -66,7 +66,7 @@ def label_entry_from_response_dict(data):
         to_state = data['ToState'],
         postnet = data['Postnet'],
         rdc = data['RDC'],
-        rate = data['Postage'],
+        postage = data['Postage'],
         insurance_fee = data['InsuranceFee'],
         carrier_route = data['CarrierRoute'],
         scheduled_delivery = data['Commitment']['ScheduledDeliveryDate'],
