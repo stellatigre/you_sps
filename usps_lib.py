@@ -13,11 +13,13 @@ def make_request_xml(base_xml_string, package_info):
 
 # feed this function xml from make_request_xml
 def get_label(package_info):
+    package_info['girth'] = girth(package_info)
+
     package_info_xml = make_request_xml(xmlt.label_xml_base, package_info)
     label_response = req.get(config.label_api_address + package_info_xml)
     label_dict = xml2dict.parse(label_response.content)
-    
     #pprint(label_dict)
+
     try:
         label_image = label_dict['SigConfirmCertifyV4.0Response']['SignatureConfirmationLabel']
         return (label_image, label_dict)
@@ -27,7 +29,7 @@ def get_label(package_info):
  
 # USPS's api returns data in base64 PDF or TIF - chose PDF
 def save_pdf_from_base64(base64_pdf, image_filename):
-    filepath = "./pdfs/" + image_filename
+    filepath = "pdfs/" + image_filename + '.pdf'
     try:
         with open(filepath, "wb") as pdf_image:
             pdf_image.write(base64.b64decode(base64_pdf))
@@ -36,6 +38,7 @@ def save_pdf_from_base64(base64_pdf, image_filename):
     except Exception as error:
         print("\nerror saving PDF file...\n" + error)
         return False
+
 
 # girth is equal to to twice the shortest sides added together
 def girth(item):
@@ -57,8 +60,3 @@ def get_shipping_rate(package_info):
     response_dict = xml2dict.parse(response_xml)
     return response_dict
 
-
-def json_from_dict(input_dict):
-    encoder = json.JSONEncoder()
-    json_data = encoder.encode(input_dict) 
-    return json_data
