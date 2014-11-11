@@ -31,7 +31,6 @@ test_rate_data()
 
 print("\nResponse Content with get_shipping_rate and test data:\n")
 rate_response2 = get_shipping_rate(xmlt.test_rate_opts)
-dynamic_returned = json_from_dict(xml2dict.parse(rate_response2))
-pprint(dynamic_returned)
+pprint(rate_response2)
 
 
