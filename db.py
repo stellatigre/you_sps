@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy import create_engine, Column, Integer, String, Float, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from configfile import db as conf
@@ -6,7 +6,6 @@ from configfile import db as conf
 conn_string = "postgresql+psycopg2://{user}:{password}@{host}/{name}".format(**conf)
 db = create_engine(conn_string)
 Session = sessionmaker(bind=db)
-
 Base = declarative_base()
 
 class Rate(Base):
@@ -14,7 +13,7 @@ class Rate(Base):
 
     id = Column(Integer, primary_key=True)
     container = Column(String)
-    rate = Column(Float)
+    rate = Column(Numeric)
     class_id = Column(Integer)
     mail_service = Column(String)
     size = Column(String)
@@ -27,45 +26,59 @@ class Rate(Base):
 class Label(Base):
     __tablename__ = 'labels'
 
-test_label_opts = {
-    'api_user' : config.api_user,
-    'from_name' : 'Lean Doer',
-    'from_firm' : 'USPS',
-    'from_address1' : 'RM 2100',
-    'from_address2' : '475 Enfant Plaza SW',
-    'from_city' : 'Washington',
-    'from_state' : 'DC',
-    'from_zip5' : 20260,
-    'to_name' : 'Spooky Skellingtons',
-    'to_firm' : 'Omnicorp. LTD.',
-    'to_address1' : 'Ste 240',
-    'to_address2' : '2 Massachusetts Ave NE',
-    'to_city' : 'Washington',
-    'to_state' : 'DC',
-    'to_zip5' : 20212,
-    'weight_ounces' : '2',
-    'service_type' : 'Priority',
-    'seperate_receipt_page' : 'False',
-    'po_zipcode' : '20770',
-    'image_type' : config.image_type,
-    'address_service_requested' : "False",
-    'hold_for_manifest' : 'N',
-    'container' : 'NONRECTANGULAR',
-    'size' : 'LARGE',
-    'width' : 7,
-    'length' : 15,
-    'height' : 10,
-    'girth' : 40,
-    'return_commitments' : 'true'
-}
-
+    id = Column(Integer, primary_key=True)
+    confirmation_number = Column(Integer)
+    to_name = Column(String)
+    to_firm = Column(String)
+    to_address1 = Column(String)
+    to_address2 = Column(String)
+    to_city = Column(String)
+    to_state = Column(String)
+    to_zip5 = Column(Integer)
+    to_zip4 = Column(Integer)
+    postnet = Column(String)
+    rdc = Column(Integer)
+    postage= Column(Numeric)
+    zone = Column(Integer)
+    insurance_fee = Column(Numeric)
+    carrier_route= Column(String)
+    return_commitments = Column(String)             # true or false
+    commitment_name = Column(String)
+    scheduled_delivery = Column(String)
     
-def create_rates_table(db_engine):
-    Rate.metadata.create_all(db_engine)
+    
+def create_rates_table(db_engine):                  # honestly these are mostly for
+    Rate.metadata.create_all(db_engine)             # remembering how to create the tables easily
+
+def create_label_table(db_engine):
+    Label.metadata.create_all(db_engine)
+
+def label_entry_from_response_dict(data):
+    data = data['SigConfirmCertifyV4.0Response']
+    
+    mapped = Label(
+        to_name = data['ToName'],
+        to_firm = data['ToFirm'],
+        to_address1 = data['ToAddress1'],
+        to_address2 = data['ToAddress2'],
+        to_city = data['ToCity'],
+        to_state = data['ToState'],
+        postnet = data['Postnet'],
+        rdc = data['RDC'],
+        rate = data['Postage'],
+        insurance_fee = data['InsuranceFee'],
+        carrier_route = data['CarrierRoute'],
+        scheduled_delivery = data['Commitment']['ScheduledDeliveryDate'],
+        commitment_name = data['Commitment']['CommitmentName'],
+        to_zip5 = data['ToZip5'],
+        to_zip4 = data['ToZip4'],
+        zone = data['Zone']
+    )
+    naive_commit(mapped)
+    return mapped
 
 def rate_entry_from_response_dict(data):
     data = data['RateV4Response']['Package']
-    session = Session()
     mapped = Rate(
         rate = data['Postage']['Rate'],
         class_id = data['Postage']['@CLASSID'],
@@ -77,11 +90,13 @@ def rate_entry_from_response_dict(data):
         zip_destination = data['ZipDestination'],
         zone = data['Zone']
     )
-    session.add(mapped)
-    session.commit()
-    session.flush()
+    naive_commit(mapped)
     return mapped
         
+def naive_commit(mapped_Object):                    # this is naive, so
+    session = Session()                             # TODO: consider questions of session scope  
+    session.add(mapped_Object)                      # perhaps leave off manual flushing ?
+    session.commit()
+    session.flush()
     
-#create_rates_table(db)
 
